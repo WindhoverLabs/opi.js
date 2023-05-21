@@ -127,7 +127,7 @@ export abstract class Widget {
       const pv = this.display.pvEngine.createPV(this.pvName);
       this.pvs.push(pv);
     }
-
+    // TODO: Check if scripts are undefined
     for (const script of this.scripts.scripts) {
       if (script.embedded) {
         const scriptInstance = this.display.pvEngine.createScript(
