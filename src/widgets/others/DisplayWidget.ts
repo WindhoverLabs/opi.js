@@ -21,9 +21,9 @@ export class DisplayWidget extends AbstractContainerWidget {
     super.parseNode(node);
 
     const displayId = DID_SEQUENCE++;
-    this.macros.set("DID", `DID_${displayId}`);
+    this.macros?.set("DID", `DID_${displayId}`);
     const displayName = this.properties.getValue("name");
-    this.macros.set("DNAME", displayName);
+    this.macros?.set("DNAME", displayName);
 
     for (const widgetNode of node.getNodes("widget")) {
       const kind = widgetNode.getString("widget_type");

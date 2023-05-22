@@ -21,14 +21,20 @@ export abstract class AbstractContainerWidget extends Widget {
   }
 
   expandContainerMacros(text: string): string {
-    for (const key in this.macros.macros) {
-      // Both ${pv_name} and $(pv_name) notations are accepted
-      text = text.replace(`$(${key})`, this.macros.macros[key]);
-      text = text.replace(`\${${key}}`, this.macros.macros[key]);
-    }
-
-    if (this.parent && this.macros.includeParentMacros) {
-      text = this.parent.expandContainerMacros(text);
+    // For bob format, we don't have the macros such as DID built into each display; so we can have files with no macros 
+    // https://control-system-studio.readthedocs.io/en/latest/app/display/editor/doc/macros.html?highlight=DNAME#system-macros
+    
+    if(this.macros != undefined)
+    {
+      for (const key in this.macros.macros) {
+        // Both ${pv_name} and $(pv_name) notations are accepted
+        text = text.replace(`$(${key})`, this.macros.macros[key]);
+        text = text.replace(`\${${key}}`, this.macros.macros[key]);
+      }
+  
+      if (this.parent && this.macros.includeParentMacros) {
+        text = this.parent.expandContainerMacros(text);
+      }
     }
     return text;
   }
@@ -85,6 +91,6 @@ export abstract class AbstractContainerWidget extends Widget {
     return this._connections;
   }
   get macros(): MacroSet {
-    return this.properties.getValue(PROP_MACROS);
+    return this.properties.getValue(PROP_MACROS, true);
   }
 }

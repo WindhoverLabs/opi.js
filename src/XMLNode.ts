@@ -406,7 +406,7 @@ export class XMLNode {
     const actionsNode = this.getNode(name);
     const actions = new ActionSet();
 
-    actions.hookFirstActionToClick = actionsNode.getBooleanAttribute("hook");
+    actions.hookFirstActionToClick = actionsNode.getBooleanAttribute("hook", false);
     actions.hookAllActionsToClick = actionsNode.getBooleanAttribute(
       "hook_all",
       false

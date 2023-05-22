@@ -128,31 +128,33 @@ export abstract class Widget {
       this.pvs.push(pv);
     }
     // TODO: Check if scripts are undefined
-    for (const script of this.scripts.scripts) {
-      if (script.embedded) {
-        const scriptInstance = this.display.pvEngine.createScript(
-          this,
-          script,
-          script.text!
-        );
-        this.pvs.push(...scriptInstance.pvs);
-      } else {
-        fetch(this.display.resolvePath(script.path!), {
-          // Send cookies too.
-          // Old versions of Firefox do not do this automatically.
-          credentials: "same-origin",
-        }).then((response) => {
-          if (response.ok) {
-            response.text().then((text) => {
-              const scriptInstance = this.display.pvEngine.createScript(
-                this,
-                script,
-                text
-              );
-              this.pvs.push(...scriptInstance.pvs);
-            });
-          }
-        });
+    if(this.scripts != undefined){
+      for (const script of this.scripts.scripts) {
+        if (script.embedded) {
+          const scriptInstance = this.display.pvEngine.createScript(
+            this,
+            script,
+            script.text!
+          );
+          this.pvs.push(...scriptInstance.pvs);
+        } else {
+          fetch(this.display.resolvePath(script.path!), {
+            // Send cookies too.
+            // Old versions of Firefox do not do this automatically.
+            credentials: "same-origin",
+          }).then((response) => {
+            if (response.ok) {
+              response.text().then((text) => {
+                const scriptInstance = this.display.pvEngine.createScript(
+                  this,
+                  script,
+                  text
+                );
+                this.pvs.push(...scriptInstance.pvs);
+              });
+            }
+          });
+        }
       }
     }
 
@@ -1020,6 +1022,7 @@ export abstract class Widget {
     return this.scale * this.properties.getValue(PROP_WIDTH);
   }
   get holderHeight(): number {
+    console.log("this.properties-->" + this.properties);
     return this.scale * this.properties.getValue(PROP_HEIGHT);
   }
   get borderAlarmSensitive(): boolean {
@@ -1073,7 +1076,7 @@ export abstract class Widget {
     return this.properties.getValue(PROP_ACTIONS);
   }
   get scripts(): ScriptSet {
-    return this.properties.getValue(PROP_SCRIPTS);
+    return this.properties.getValue(PROP_SCRIPTS, true);
   }
   get rules(): RuleSet {
     return this.properties.getValue(PROP_RULES);

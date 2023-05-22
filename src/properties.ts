@@ -43,6 +43,8 @@ export class PropertySet {
   }
 
   private loadProperty(node: XMLNode, property: Property<any>) {
+    console.log("loadProperty-->"+ property.name);
+    console.log("node-->"+ node.getTextContent());
     if (node.hasNode(property.name)) {
       if (property instanceof ActionsProperty) {
         property.value = node.getActions(property.name);

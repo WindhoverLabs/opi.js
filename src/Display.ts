@@ -490,6 +490,7 @@ export class Display {
   }
 
   private setSourceString(source: string) {
+    console.log("xml-->" + source);
     this.reset();
     this.instance = new DisplayWidget(this);
     const displayNode = XMLNode.parseFromXML(source);
