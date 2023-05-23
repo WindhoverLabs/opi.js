@@ -118,8 +118,9 @@ export abstract class Widget {
 
     for (const property of this.properties.all()) {
       if (property instanceof FontProperty) {
-        const font = property.value as Font;
-        this.loadFont(font);
+        property.value = Font.ARIAL_12_BOLD;
+        // const font = property.value as Font;
+        // this.loadFont(font);
       }
     }
 
@@ -898,28 +899,49 @@ export abstract class Widget {
   }
 
   private loadFont(font: Font) {
-    if (font.isWebSafe()) {
-      return; // Nothing to load
-    }
-    const fontResolver = this.display.getFontResolver();
-    if (!fontResolver) {
-      console.warn(`Failed to load font '${font.getFontString()}'.`);
+    if(font == undefined){
       return;
+      // font = Font.ARIAL_12_BOLD;
+      // document.fonts.add(font);
+      // const fontFace: FontFace = font;
+      // if (!fontFace) {
+      //   console.warn(`Failed to load font '${font.getFontString()}'.`);
+      //   return;
+      // }
+      // fontFace
+      //   .load()
+      //   .then((fontFace: FontFace) => {
+      //     document.fonts.add(fontFace);
+      //     this.requestRepaint();
+      //   })
+      //   .catch((err) => {
+      //     console.warn(`Failed to load font '${font.getFontString()}'.`, err);
+      //   });
     }
-    const fontFace = fontResolver.resolve(font);
-    if (!fontFace) {
-      console.warn(`Failed to load font '${font.getFontString()}'.`);
-      return;
+    else{
+      if (font.isWebSafe()) {
+        return; // Nothing to load
+      }
+      const fontResolver = this.display.getFontResolver();
+      if (!fontResolver) {
+        console.warn(`Failed to load font '${font.getFontString()}'.`);
+        return;
+      }
+      const fontFace = fontResolver.resolve(font);
+      if (!fontFace) {
+        console.warn(`Failed to load font '${font.getFontString()}'.`);
+        return;
+      }
+      fontFace
+        .load()
+        .then((fontFace: FontFace) => {
+          document.fonts.add(fontFace);
+          this.requestRepaint();
+        })
+        .catch((err) => {
+          console.warn(`Failed to load font '${font.getFontString()}'.`, err);
+        });
     }
-    fontFace
-      .load()
-      .then((fontFace) => {
-        document.fonts.add(fontFace);
-        this.requestRepaint();
-      })
-      .catch((err) => {
-        console.warn(`Failed to load font '${font.getFontString()}'.`, err);
-      });
   }
 
   get pv(): PV | undefined {

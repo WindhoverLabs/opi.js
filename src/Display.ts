@@ -61,23 +61,35 @@ import { WebBrowser } from "./widgets/others/WebBrowser";
 import { XMLNode } from "./XMLNode";
 
 const TYPE_ACTION_BUTTON = "Action Button";
+const TYPE_ACTION_BUTTON_BOB = "action_button";
 const TYPE_ARC = "Arc";
+const TYPE_ARC_BOB = "arc";
 const TYPE_BOOLEAN_BUTTON = "Boolean Button";
+const TYPE_BOOLEAN_BUTTON_BOB = "bool_button";
 const TYPE_BOOLEAN_SWITCH = "Boolean Switch";
+const TYPE_BOOLEAN_SWITCH_BOB = "slide_button";
 const TYPE_BYTE_MONITOR = "Byte Monitor";
+const TYPE_BYTE_MONITOR_BOB = "byte_monitor";
 const TYPE_CHECK_BOX = "Check Box";
+const TYPE_CHECK_BOX_BOB = "checkbox";
 const TYPE_CHOICE_BUTTON = "Choice Button";
+const TYPE_CHOICE_BUTTON_BOB = "choice";
 const TYPE_COMBO = "Combo";
+const TYPE_COMBO_BOB = "Combo";
 const TYPE_COMBO_BOX = "Combo Box"; // Only used in old displays
 const TYPE_ELLIPSE = "Ellipse";
-const TYPE_GAUGE = "Gauge";
+const TYPE_ELLIPSE_BOB = "ellipse";
+const TYPE_GAUGE = "Gauge"; // no version of this in BOB
 const TYPE_GROUPING_CONTAINER = "Grouping Container";
 const TYPE_IMAGE = "Image";
+const TYPE_IMAGE_BOB = "picture";
 const TYPE_IMAGE_BOOLEAN_BUTTON = "Image Boolean Button";
 const TYPE_IMAGE_BOOLEAN_INDICATOR = "Image Boolean Indicator";
 const TYPE_INTENSITY_GRAPH = "Intensity Graph";
 const TYPE_LABEL = "Label";
+const TYPE_LABEL_BOB = "label";
 const TYPE_LED = "LED";
+const TYPE_LED_BOB = "led";
 const TYPE_LINKING_CONTAINER = "Linking Container";
 const TYPE_MENU_BUTTON = "Menu Button";
 const TYPE_METER = "Meter";
@@ -381,82 +393,164 @@ export class Display {
   }
 
   createWidget(kind: string, parent: AbstractContainerWidget) {
-    switch (kind) {
-      case TYPE_ACTION_BUTTON:
-        return new ActionButton(this, parent);
-      case TYPE_ARC:
-        return new Arc(this, parent);
-      case TYPE_BOOLEAN_BUTTON:
-        return new BooleanButton(this, parent);
-      case TYPE_BOOLEAN_SWITCH:
-        return new BooleanSwitch(this, parent);
-      case TYPE_BYTE_MONITOR:
-        return new ByteMonitor(this, parent);
-      case TYPE_CHECK_BOX:
-        return new CheckBox(this, parent);
-      case TYPE_CHOICE_BUTTON:
-        return new ChoiceButton(this, parent);
-      case TYPE_COMBO:
-      case TYPE_COMBO_BOX:
-        return new Combo(this, parent);
-      case TYPE_ELLIPSE:
-        return new Ellipse(this, parent);
-      case TYPE_GAUGE:
-        return new Gauge(this, parent);
-      case TYPE_GROUPING_CONTAINER:
-        return new GroupingContainer(this, parent);
-      case TYPE_IMAGE:
-        return new ImageWidget(this, parent);
-      case TYPE_IMAGE_BOOLEAN_BUTTON:
-        return new ImageBooleanButton(this, parent);
-      case TYPE_IMAGE_BOOLEAN_INDICATOR:
-        return new ImageBooleanIndicator(this, parent);
-      case TYPE_INTENSITY_GRAPH:
-        return new IntensityGraph(this, parent);
-      case TYPE_LABEL:
-        return new Label(this, parent);
-      case TYPE_LED:
-        return new LED(this, parent);
-      case TYPE_LINKING_CONTAINER:
-        return new LinkingContainer(this, parent);
-      case TYPE_MENU_BUTTON:
-        return new MenuButton(this, parent);
-      case TYPE_METER:
-        return new Meter(this, parent);
-      case TYPE_NATIVE_BUTTON:
-        return new NativeButton(this, parent);
-      case TYPE_POLYGON:
-        return new Polygon(this, parent);
-      case TYPE_POLYLINE:
-        return new Polyline(this, parent);
-      case TYPE_PROGRESS_BAR:
-        return new ProgressBar(this, parent);
-      case TYPE_RADIO_BOX:
-        return new RadioBox(this, parent);
-      case TYPE_RECTANGLE:
-        return new Rectangle(this, parent);
-      case TYPE_ROUNDED_RECTANGLE:
-        return new RoundedRectangle(this, parent);
-      case TYPE_SCROLLBAR:
-        return new Scrollbar(this, parent);
-      case TYPE_TABBED_CONTAINER:
-        return new TabbedContainer(this, parent);
-      case TYPE_TABLE:
-        return new Table(this, parent);
-      case TYPE_TANK:
-        return new Tank(this, parent);
-      case TYPE_TEXT_INPUT:
-        return new TextInput(this, parent);
-      case TYPE_TEXT_UPDATE:
-        return new TextUpdate(this, parent);
-      case TYPE_THERMOMETER:
-        return new Thermometer(this, parent);
-      case TYPE_WEB_BROWSER:
-        return new WebBrowser(this, parent);
-      case TYPE_XY_GRAPH:
-        return new XYGraph(this, parent);
-      default:
-        console.warn(`Unsupported widget type: ${kind}`);
+    if(this.displayFormat == DisplayFormat.BOB){
+      switch (kind) {
+        case TYPE_ACTION_BUTTON:
+          return new ActionButton(this, parent);
+        case TYPE_ARC:
+          return new Arc(this, parent);
+        case TYPE_BOOLEAN_BUTTON:
+          return new BooleanButton(this, parent);
+        case TYPE_BOOLEAN_SWITCH:
+          return new BooleanSwitch(this, parent);
+        case TYPE_BYTE_MONITOR:
+          return new ByteMonitor(this, parent);
+        case TYPE_CHECK_BOX:
+          return new CheckBox(this, parent);
+        case TYPE_CHOICE_BUTTON:
+          return new ChoiceButton(this, parent);
+        case TYPE_COMBO:
+        case TYPE_COMBO_BOX:
+          return new Combo(this, parent);
+        case TYPE_ELLIPSE:
+          return new Ellipse(this, parent);
+        case TYPE_GAUGE:
+          return new Gauge(this, parent);
+        case TYPE_GROUPING_CONTAINER:
+          return new GroupingContainer(this, parent);
+        case TYPE_IMAGE:
+          return new ImageWidget(this, parent);
+        case TYPE_IMAGE_BOOLEAN_BUTTON:
+          return new ImageBooleanButton(this, parent);
+        case TYPE_IMAGE_BOOLEAN_INDICATOR:
+          return new ImageBooleanIndicator(this, parent);
+        case TYPE_INTENSITY_GRAPH:
+          return new IntensityGraph(this, parent);
+        case TYPE_LABEL_BOB:
+          return new Label(this, parent);
+        case TYPE_LED:
+          return new LED(this, parent);
+        case TYPE_LINKING_CONTAINER:
+          return new LinkingContainer(this, parent);
+        case TYPE_MENU_BUTTON:
+          return new MenuButton(this, parent);
+        case TYPE_METER:
+          return new Meter(this, parent);
+        case TYPE_NATIVE_BUTTON:
+          return new NativeButton(this, parent);
+        case TYPE_POLYGON:
+          return new Polygon(this, parent);
+        case TYPE_POLYLINE:
+          return new Polyline(this, parent);
+        case TYPE_PROGRESS_BAR:
+          return new ProgressBar(this, parent);
+        case TYPE_RADIO_BOX:
+          return new RadioBox(this, parent);
+        case TYPE_RECTANGLE:
+          return new Rectangle(this, parent);
+        case TYPE_ROUNDED_RECTANGLE:
+          return new RoundedRectangle(this, parent);
+        case TYPE_SCROLLBAR:
+          return new Scrollbar(this, parent);
+        case TYPE_TABBED_CONTAINER:
+          return new TabbedContainer(this, parent);
+        case TYPE_TABLE:
+          return new Table(this, parent);
+        case TYPE_TANK:
+          return new Tank(this, parent);
+        case TYPE_TEXT_INPUT:
+          return new TextInput(this, parent);
+        case TYPE_TEXT_UPDATE:
+          return new TextUpdate(this, parent);
+        case TYPE_THERMOMETER:
+          return new Thermometer(this, parent);
+        case TYPE_WEB_BROWSER:
+          return new WebBrowser(this, parent);
+        case TYPE_XY_GRAPH:
+          return new XYGraph(this, parent);
+        default:
+          console.warn(`Unsupported widget type: ${kind}`);
+      }
+    }
+
+    else if(this.displayFormat ==DisplayFormat.OPI){
+      switch (kind) {
+        case TYPE_ACTION_BUTTON:
+          return new ActionButton(this, parent);
+        case TYPE_ARC:
+          return new Arc(this, parent);
+        case TYPE_BOOLEAN_BUTTON:
+          return new BooleanButton(this, parent);
+        case TYPE_BOOLEAN_SWITCH:
+          return new BooleanSwitch(this, parent);
+        case TYPE_BYTE_MONITOR:
+          return new ByteMonitor(this, parent);
+        case TYPE_CHECK_BOX:
+          return new CheckBox(this, parent);
+        case TYPE_CHOICE_BUTTON:
+          return new ChoiceButton(this, parent);
+        case TYPE_COMBO:
+        case TYPE_COMBO_BOX:
+          return new Combo(this, parent);
+        case TYPE_ELLIPSE:
+          return new Ellipse(this, parent);
+        case TYPE_GAUGE:
+          return new Gauge(this, parent);
+        case TYPE_GROUPING_CONTAINER:
+          return new GroupingContainer(this, parent);
+        case TYPE_IMAGE:
+          return new ImageWidget(this, parent);
+        case TYPE_IMAGE_BOOLEAN_BUTTON:
+          return new ImageBooleanButton(this, parent);
+        case TYPE_IMAGE_BOOLEAN_INDICATOR:
+          return new ImageBooleanIndicator(this, parent);
+        case TYPE_INTENSITY_GRAPH:
+          return new IntensityGraph(this, parent);
+        case TYPE_LABEL:
+          return new Label(this, parent);
+        case TYPE_LED:
+          return new LED(this, parent);
+        case TYPE_LINKING_CONTAINER:
+          return new LinkingContainer(this, parent);
+        case TYPE_MENU_BUTTON:
+          return new MenuButton(this, parent);
+        case TYPE_METER:
+          return new Meter(this, parent);
+        case TYPE_NATIVE_BUTTON:
+          return new NativeButton(this, parent);
+        case TYPE_POLYGON:
+          return new Polygon(this, parent);
+        case TYPE_POLYLINE:
+          return new Polyline(this, parent);
+        case TYPE_PROGRESS_BAR:
+          return new ProgressBar(this, parent);
+        case TYPE_RADIO_BOX:
+          return new RadioBox(this, parent);
+        case TYPE_RECTANGLE:
+          return new Rectangle(this, parent);
+        case TYPE_ROUNDED_RECTANGLE:
+          return new RoundedRectangle(this, parent);
+        case TYPE_SCROLLBAR:
+          return new Scrollbar(this, parent);
+        case TYPE_TABBED_CONTAINER:
+          return new TabbedContainer(this, parent);
+        case TYPE_TABLE:
+          return new Table(this, parent);
+        case TYPE_TANK:
+          return new Tank(this, parent);
+        case TYPE_TEXT_INPUT:
+          return new TextInput(this, parent);
+        case TYPE_TEXT_UPDATE:
+          return new TextUpdate(this, parent);
+        case TYPE_THERMOMETER:
+          return new Thermometer(this, parent);
+        case TYPE_WEB_BROWSER:
+          return new WebBrowser(this, parent);
+        case TYPE_XY_GRAPH:
+          return new XYGraph(this, parent);
+        default:
+          console.warn(`Unsupported widget type: ${kind}`);
+      }
     }
   }
 
@@ -499,7 +593,7 @@ export class Display {
 
   private setSourceString(source: string) {
     this.reset();
-    this.instance = new DisplayWidget(this);
+    this.instance = new DisplayWidget(this, undefined, this.displayFormat);
     const displayNode = XMLNode.parseFromXML(source);
     this.instance.parseNode(displayNode);
     this.pvEngine.init();

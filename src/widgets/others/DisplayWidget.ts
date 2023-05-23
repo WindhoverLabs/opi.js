@@ -17,6 +17,7 @@ export class DisplayWidget extends AbstractContainerWidget {
 
   constructor(display: Display, parent?: AbstractContainerWidget, format: DisplayFormat = DisplayFormat.OPI) {
     super(display, parent);
+    this.displayFormat = format;
     this.properties.add(new AutoScaleWidgetsProperty(PROP_AUTO_SCALE_WIDGETS));
   }
 
@@ -29,9 +30,12 @@ export class DisplayWidget extends AbstractContainerWidget {
     this.macros?.set("DNAME", displayName);
 
     for (const widgetNode of node.getNodes("widget")) {
-      let kind = widgetNode.getString("widget_type");
+      let kind: string = "";
       if(this.displayFormat == DisplayFormat.BOB){
           kind = widgetNode.getStringAttribute("type");
+      }
+      else{
+        kind = widgetNode.getString("widget_type");
       }
       const widget = this.display.createWidget(kind, this);
       if (widget) {
