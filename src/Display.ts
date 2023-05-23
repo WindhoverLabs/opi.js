@@ -98,6 +98,11 @@ const TYPE_THERMOMETER = "Thermometer";
 const TYPE_WEB_BROWSER = "Web Browser";
 const TYPE_XY_GRAPH = "XY Graph";
 
+export enum DisplayFormat {
+  OPI = 1,
+  BOB = 2
+}
+
 export class Display {
   rootPanel: HTMLDivElement;
   private g: Graphics;
@@ -118,6 +123,8 @@ export class Display {
   private _scale = 1;
   private _transparent = false;
   private refreshCycle = 100;
+
+  private displayFormat: DisplayFormat = DisplayFormat.OPI;
 
   /**
    * Prefix for images sourced during draw.
@@ -143,7 +150,8 @@ export class Display {
 
   private displayRegion: HitRegionSpecification;
 
-  constructor(private readonly targetElement: HTMLElement) {
+  constructor(private readonly targetElement: HTMLElement, format: DisplayFormat = DisplayFormat.OPI) {
+    this.displayFormat = format;
     // Wrapper to not modify the user element much more
     this.rootPanel = document.createElement("div");
     this.rootPanel.className = "display-root";
@@ -490,7 +498,6 @@ export class Display {
   }
 
   private setSourceString(source: string) {
-    console.log("xml-->" + source);
     this.reset();
     this.instance = new DisplayWidget(this);
     const displayNode = XMLNode.parseFromXML(source);

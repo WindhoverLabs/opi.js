@@ -1,4 +1,5 @@
 import { Display } from "../../Display";
+import { DisplayFormat } from "../../Display";
 import { Graphics } from "../../Graphics";
 import { Bounds } from "../../positioning";
 import { AutoScaleWidgetsProperty } from "../../properties";
@@ -12,7 +13,9 @@ let DID_SEQUENCE = 0;
 const PROP_AUTO_SCALE_WIDGETS = "auto_scale_widgets";
 
 export class DisplayWidget extends AbstractContainerWidget {
-  constructor(display: Display, parent?: AbstractContainerWidget) {
+  private displayFormat: DisplayFormat = DisplayFormat.OPI
+
+  constructor(display: Display, parent?: AbstractContainerWidget, format: DisplayFormat = DisplayFormat.OPI) {
     super(display, parent);
     this.properties.add(new AutoScaleWidgetsProperty(PROP_AUTO_SCALE_WIDGETS));
   }
@@ -26,10 +29,10 @@ export class DisplayWidget extends AbstractContainerWidget {
     this.macros?.set("DNAME", displayName);
 
     for (const widgetNode of node.getNodes("widget")) {
-      // const kind = widgetNode.getString("widget_type"); // this is for old OPI files
-      // const kind = widgetNode.getString("widget_type");
-      // console.log( );
-      const kind = widgetNode.getStringAttribute("type");
+      let kind = widgetNode.getString("widget_type");
+      if(this.displayFormat == DisplayFormat.BOB){
+          kind = widgetNode.getStringAttribute("type");
+      }
       const widget = this.display.createWidget(kind, this);
       if (widget) {
         widget.parseNode(widgetNode);
