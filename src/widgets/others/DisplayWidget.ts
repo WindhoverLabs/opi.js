@@ -26,7 +26,10 @@ export class DisplayWidget extends AbstractContainerWidget {
     this.macros?.set("DNAME", displayName);
 
     for (const widgetNode of node.getNodes("widget")) {
-      const kind = widgetNode.getString("widget_type");
+      // const kind = widgetNode.getString("widget_type"); // this is for old OPI files
+      // const kind = widgetNode.getString("widget_type");
+      // console.log( );
+      const kind = widgetNode.getStringAttribute("type");
       const widget = this.display.createWidget(kind, this);
       if (widget) {
         widget.parseNode(widgetNode);
