@@ -43,8 +43,6 @@ export class PropertySet {
   }
 
   private loadProperty(node: XMLNode, property: Property<any>) {
-    console.log("loadProperty-->"+ property.name);
-    console.log("node-->"+ node.getTextContent());
     if (node.hasNode(property.name)) {
       if (property instanceof ActionsProperty) {
         property.value = node.getActions(property.name);
@@ -195,6 +193,14 @@ export class StringProperty extends Property<string> {
    * Has macros unexpanded
    */
   rawValue?: string;
+
+  //FIXME: This constructor is a workaround for macros. Not a long-term solution.
+  constructor(readonly name: string, readonly defaultValue?: string) {
+    super(name, defaultValue);
+    this.value = defaultValue;
+    this.rawValue = defaultValue;
+  }
+
 
   printScriptValue(value: String) {
     return `"${value.replace('"', '\\"')}"`;

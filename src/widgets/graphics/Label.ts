@@ -14,9 +14,9 @@ export class Label extends Widget {
   constructor(display: Display, parent: AbstractContainerWidget) {
     super(display, parent);
     this.properties.add(new FontProperty(PROP_FONT));
-    this.properties.add(new IntProperty(PROP_HORIZONTAL_ALIGNMENT));
-    this.properties.add(new IntProperty(PROP_VERTICAL_ALIGNMENT));
-    this.properties.add(new BooleanProperty(PROP_WRAP_WORDS));
+    this.properties.add(new IntProperty(PROP_HORIZONTAL_ALIGNMENT, 0));
+    this.properties.add(new IntProperty(PROP_VERTICAL_ALIGNMENT, 0));
+    this.properties.add(new BooleanProperty(PROP_WRAP_WORDS, true));
   }
 
   draw(g: Graphics) {

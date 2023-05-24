@@ -93,19 +93,19 @@ export abstract class Widget {
       new IntProperty(PROP_BORDER_WIDTH),
       new BooleanProperty(PROP_ENABLED, true),
       new BooleanProperty(PROP_FOREGROUND_ALARM_SENSITIVE, false),
-      new ColorProperty(PROP_FOREGROUND_COLOR),
-      new IntProperty(PROP_HEIGHT),
-      new StringProperty(PROP_NAME),
+      new ColorProperty(PROP_FOREGROUND_COLOR,new Color(0, 0, 0)),
+      new IntProperty(PROP_HEIGHT, 20), // default in  org.csstudio.display.builder.model.Widget.Widget(String, int, int)
+      new StringProperty(PROP_NAME, "default_name"),
       new StringProperty(PROP_PV_NAME),
       new PVValueProperty(PROP_PV_VALUE, PROP_PV_NAME),
       new RulesProperty(PROP_RULES, new RuleSet()),
       new ScriptsProperty(PROP_SCRIPTS),
-      new StringProperty(PROP_TEXT, ""),
+      new StringProperty(PROP_TEXT, "Label text"),
       new StringProperty(PROP_TOOLTIP, ""),
       new BooleanProperty(PROP_TRANSPARENT, false),
-      new BooleanProperty(PROP_VISIBLE),
+      new BooleanProperty(PROP_VISIBLE, true),
       new StringProperty(PROP_WIDGET_TYPE),
-      new IntProperty(PROP_WIDTH),
+      new IntProperty(PROP_WIDTH, 100), // default in  org.csstudio.display.builder.model.Widget.Widget(String, int, int)
       new StringProperty(PROP_WUID),
       new IntProperty(PROP_X),
       new IntProperty(PROP_Y),
@@ -1041,10 +1041,10 @@ export abstract class Widget {
     return this.scale * this.properties.getValue(PROP_Y);
   }
   get holderWidth(): number {
+
     return this.scale * this.properties.getValue(PROP_WIDTH);
   }
   get holderHeight(): number {
-    console.log("this.properties-->" + this.properties);
     return this.scale * this.properties.getValue(PROP_HEIGHT);
   }
   get borderAlarmSensitive(): boolean {
@@ -1066,7 +1066,7 @@ export abstract class Widget {
     return this.properties.getValue(PROP_BORDER_COLOR);
   }
   get borderStyle(): number {
-    return this.properties.getValue(PROP_BORDER_STYLE);
+    return this.properties.getValue(PROP_BORDER_STYLE, true);
   }
   get borderWidth(): number {
     return this.scale * this.properties.getValue(PROP_BORDER_WIDTH);
@@ -1092,7 +1092,8 @@ export abstract class Widget {
     return this.properties.getValue(PROP_TRANSPARENT);
   }
   get visible(): boolean {
-    return this.properties.getValue(PROP_VISIBLE);
+    let prop = this.properties.getValue(PROP_VISIBLE, true);
+    return this.properties.getValue(PROP_VISIBLE, true);
   }
   get actions(): ActionSet {
     return this.properties.getValue(PROP_ACTIONS);
@@ -1115,7 +1116,7 @@ export abstract class Widget {
       const prop = this.properties.getProperty(PROP_TEXT) as StringProperty;
       return (prop.rawValue || "").split(" ").join("\u00a0"); // Preserve whitespace
     } else {
-      const text = this.properties.getValue(PROP_TEXT);
+      const text = this.properties.getValue(PROP_TEXT, true);
       return text.split(" ").join("\u00a0"); // Preserve whitespace
     }
   }
